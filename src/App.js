@@ -5,34 +5,60 @@ import { useEffect, useState } from 'react';
 function App() {
   return (
     <div className="App">
-      <Countries></Countries>
+      <LoadPosts></LoadPosts>
+      <District name="Dhaka" special="Bivag"></District>
+      <District name="Komilla" special="My app"></District>
+      <District name="Mymensingh" special="Nandail"></District>
     </div>
   );
 }
-function Countries() {
-  const [countries, setCountries] = useState([]);
-  useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
-      .then(res => res.json())
-      .then(data => setCountries(data))
+
+function LoadPosts(){
+  const [posts, setPosts] = useState([]);
+  useEffect( () =>{
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(res => res.json())
+    .then(data => setPosts(data))
   }, [])
   return (
     <div>
-      <h1>Visiting Every!!!</h1>
-      <h3>Abaliable Countries: {countries.length}</h3>
+      <h1>Posts: {posts.length}</h1>
       {
-        countries.map(country => <Country name={country.name.common} population={country.population} area={country.area}></Country>)
+        posts.map(post => <Post title={post.title} body={post.body}></Post>)
       }
     </div>
   )
 }
 
-function Country(props){
+function Post(props){
   return (
-    <div className="desh">
+    <div style={{backgroundColor: 'lightgreen', margin: '20px', border: '20px', padding: '10px', borderRadius: '20px'}}>
+      <h2>Title: {props.title}</h2>
+      <p>Body: {props.body}</p>
+    </div>
+  )
+}
+
+const districtStyle = {
+  backgroundColor: 'green',
+  margin: '20px',
+  borderRadius: '20px',
+  padding: '20px'
+}
+
+function District(props){
+  const [power, setPower] = useState(1);
+
+  const boostPower = () =>{
+   const newPower = power * 2;
+    setPower(newPower);
+  }
+  return (
+    <div style={districtStyle}>
       <h1>Name: {props.name}</h1>
-      <h3>Population: {props.population}</h3>
-      <p>Area: {props.area}</p>
+      <p>Specialty: {props.special}</p>
+      <h4>Power: {power}</h4>
+      <button onClick={boostPower}>The Power</button>
     </div>
   )
 }
