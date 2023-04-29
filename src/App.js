@@ -8,7 +8,6 @@ function App() {
       <LoadPosts></LoadPosts>
       <District name="Dhaka" special="Bivag"></District>
       <District name="Komilla" special="My app"></District>
-      <District name="Mymensingh" special="Nandail"></District>
     </div>
   );
 }
